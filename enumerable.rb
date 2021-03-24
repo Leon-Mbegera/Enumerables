@@ -11,9 +11,9 @@ module Enumerable
 
   def my_each_with_index
     return to_enum unless block_given?
-    
     array = to_a
     array.length.times {|element| yield array[element], element}
+    array
   end
   
   def my_select 
@@ -52,5 +52,5 @@ end
 
 
 
-
-p [1,1,2].my_any?(&:even?)
+[3,5,8,1].my_each_with_index{|element, i| p "#{element} #{i}"} 
+ [1,1,2].my_any?(&:even?)
