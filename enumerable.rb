@@ -29,7 +29,7 @@ module Enumerable
       return true
 
     elsif  param=nil?
-      to_a.my_each{|i|return false unless !i.nil? || i==true } 
+      to_a.my_each{|i|return false unless !i.nil?  } 
 
 
     end
