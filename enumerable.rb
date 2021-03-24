@@ -40,7 +40,7 @@ module Enumerable
       to_a.my_each{|i| return true if yield i}
  
   elsif param
-    to_a.my_each{|i| return true if match?( i, param)}
+    to_a.my_each{|i| return true if match?(i, param)}
 
   else
     to_a.my_each{|i| return true  if i}
@@ -48,9 +48,19 @@ module Enumerable
     false
   end
 
+  def my_none? (param = nil?)
+    if block_given?
+      to_a.my_each{|i| return false if yield i}
+      elsif param 
+      to_a.my_each {|i| return false if match?(i, param)}
+      else
+      to_a.my_each {|i| return false if i}
+    end
+    true
+  end
+
+  
 end
 
 
 
-[3,5,8,1].my_each_with_index{|element, i| p "#{element} #{i}"} 
- [1,1,2].my_any?(&:even?)
