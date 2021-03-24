@@ -89,26 +89,26 @@ module Enumerable
     accum = param1 || array[0]
     i = param1 ? 0 : 1
     if block_given?
-      (i...array.length).my_each { |i| accum = yield(accum, array[i]) }
+      (i...array.length).my_each { |el| accum = yield(accum, array[el]) }
     elsif param1 && param2
-      (i...array.length).my_each { |i| accum.send(param2, array[i]) }
+      (i...array.length).my_each { |el| accum.send(param2, array[el]) }
     elsif param1
       accum = array[0]
-      (1...array.length).my_each { |i| accum.send(param1, array[i]) }
+      (1...array.length).my_each { |el| accum.send(param1, array[el]) }
     else
       raise LocalJump
     end
     accum
   end
 
-  def match?(i, param)
+  def match?(element, param)
     case param
     when Regexp
-      i =~ param
+      element =~ param
     when Class
-      i.is_a?(param)
+      element.is_a?(param)
     else
-      i == param
+      element == param
     end
   end
 
