@@ -23,9 +23,21 @@ module Enumerable
     arr
   end
 
+  def my_all?(param = nil)
+    if block_given?
+      to_a.my_each{|i| return false unless yield i }
+      return true
+
+    elsif  param=nil?
+      to_a.my_each{|i|return false unless !i.nil? || i==true } 
+
+
+    end
+  end
+
 end
 
 
 
 
-p [1,2,3,4,5,6].my_select(&:even?)
+p [2,4,6].my_all?(&:even?)
