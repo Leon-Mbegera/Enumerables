@@ -1,83 +1,82 @@
 module Enumerable
-
   def my_each
     return to_enum unless block_given?
 
     for element in self
       yield element
     end
-  end 
-
+  end
 
   def my_each_with_index
     return to_enum unless block_given?
+
     array = to_a
-    array.length.times {|element| yield array[element], element}
+    array.length.times { |element| yield array[element], element }
     array
   end
-  
-  def my_select 
+
+  def my_select
     return to_enum unless block_given?
-     arr = []
-     my_each{|i|arr << i if yield i }
+
+    arr = []
+    my_each { |i| arr << i if yield i }
     arr
   end
 
   def my_all?(param = nil)
     if block_given?
-      to_a.my_each{|i| return false unless yield i }
+      to_a.my_each { |i| return false unless yield i }
     elsif param
-      to_a.my_each{|i| return false unless match?(i, param)}
+      to_a.my_each { |i| return false unless match?(i, param) }
     else
-      to_a.my_each{|i| return false unless i}
+      to_a.my_each { |i| return false unless i }
 
     end
-    return true
+    true
   end
 
-  def my_any? (param = nil)
+  def my_any?(param = nil)
     if block_given?
-      to_a.my_each{|i| return true if yield i}
- 
-  elsif param
-    to_a.my_each{|i| return true if match?(i, param)}
+      to_a.my_each { |i| return true if yield i }
 
-  else
-    to_a.my_each{|i| return true  if i}
-   end
+    elsif param
+      to_a.my_each { |i| return true if match?(i, param) }
+
+    else
+      to_a.my_each { |i| return true if i }
+    end
     false
   end
 
-  def my_none? (param = nil?)
+  def my_none?(param = nil?)
     if block_given?
-      to_a.my_each{|i| return false if yield i}
-    elsif param 
-      to_a.my_each {|i| return false if match?(i, param)}
+      to_a.my_each { |i| return false if yield i }
+    elsif param
+      to_a.my_each { |i| return false if match?(i, param) }
     else
-      to_a.my_each {|i| return false if i}
+      to_a.my_each { |i| return false if i }
     end
     true
   end
 
   def my_count(param = nil)
-    count =  0
+    count = 0
     if block_given?
-      my_each{|i| count += 1 if yield i}
+      my_each { |i| count += 1 if yield i }
     elsif param
-      my_each{|i| count += 1 if match?(i, param)}
+      my_each { |i| count += 1 if match?(i, param) }
     else
-    return length
+      return length
     end
     count
   end
 
-
-  def my_map (proc = nil)
+  def my_map(proc = nil)
     arr = []
     if proc
-      my_each{|i| arr<< proc.call[i]}
+      my_each { |i| arr << proc.call[i] }
     elsif block_given?
-      my_each{|i| arr << yield(i)}
+      my_each { |i| arr << yield(i) }
 
     else
       return to_enum
@@ -90,12 +89,12 @@ module Enumerable
     accum = param1 || array[0]
     i = param1 ? 0 : 1
     if block_given?
-      (i...array.length).my_each{|i| accum =  yield(accum, array[i])}
+      (i...array.length).my_each { |i| accum = yield(accum, array[i]) }
     elsif param1 && param2
-      (i...array.length).my_each{|i| accum.send(param2, array[i])}
+      (i...array.length).my_each { |i| accum.send(param2, array[i]) }
     elsif param1
-      accum =  array[0]
-      (1...array.length).my_each{|i| accum.send(param1, array[i])}
+      accum = array[0]
+      (1...array.length).my_each { |i| accum.send(param1, array[i]) }
     else
       raise LocalJump
     end
@@ -116,10 +115,4 @@ module Enumerable
   def multiply_els(arr)
     arr.my_inject(:*)
   end
-
 end
-
-
-
-
-
