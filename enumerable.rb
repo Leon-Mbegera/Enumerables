@@ -71,6 +71,23 @@ module Enumerable
     count
   end
 
+  def my_inject(param1 = nil, param2 = nil)
+    array = to_a
+    accum = param1 || array[0]
+    i = param1 ? 0 : 1
+    if block_given?
+      (i...array.length).my_each{|i| accum =  yield(accum, array[i])}
+    elsif param1 && param2
+      (i...array.length).my_each{|i| accum.send(param2, array[i])}
+    elsif param1
+      accum =  array[0]
+      (1...array.length).my_each{|i| accum.send(param1, array[i])}
+    else
+      raise LocalJump
+    end
+    accum
+  end
+
   
 
 
@@ -85,13 +102,20 @@ module Enumerable
     end
   end
 
+  def multiply_els(arr)
+    arr.my_inject(:*)
+  end
+
 
 end
 
-arr = [1, 2, 4, 2]
-puts (arr.my_count { |x| (x % 2).zero? })
-puts arr.my_count #=> 4
-puts arr.my_count(2) #=> 2
- #=> 3\
+puts ((1..5).my_inject { |sum, n| sum + n }) #=> 15
+puts (1..5).my_inject(1) { |product, n| product * n } #=> 120
+longest = %w[ant bear cat].my_inject do |memo, word|
+  memo.length > word.length ? memo : word
+end
+
+
+
 
 
