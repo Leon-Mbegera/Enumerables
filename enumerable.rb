@@ -26,13 +26,14 @@ module Enumerable
   def my_all?(param = nil)
     if block_given?
       to_a.my_each{|i| return false unless yield i }
-      return true
-
-    elsif  param=nil?
-      to_a.my_each{|i|return false unless !i.nil? || i==true } 
-
+    
+    elsif param
+      to_a.my_each{|i| return false unless match?(i, param)}
+    else
+      to_a.my_each{|i| return false unless i}
 
     end
+    return true
   end
 
 end
@@ -41,3 +42,6 @@ end
 
 
 p [2,4,6].my_all?(&:even?)
+
+
+ [
