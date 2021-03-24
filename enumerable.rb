@@ -14,23 +14,18 @@ module Enumerable
     
     array = to_a
     array.length.times {|element| yield array[element], element}
-  
   end
   
-
-
-
-
-
-
-
-
-
+  def my_select 
+    return to_enum unless block_given?
+     arr = []
+     my_each{|i|arr << i if yield i }
+    arr
+  end
 
 end
 
 
 
 
-[3,5,8,1].my_each_with_index{|element, i| p "#{element} #{i}"}
- 
+p [1,2,3,4,5,6].my_select(&:even?)
