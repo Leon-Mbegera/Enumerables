@@ -71,6 +71,20 @@ module Enumerable
     count
   end
 
+
+  def my_map (proc = nil)
+    arr = []
+    if proc
+      my_each{|i| arr<< proc.call[i]}
+    elsif block_given?
+      my_each{|i| arr << yield(i)}
+
+    else
+      return to_enum
+    end
+    arr
+  end
+
   def my_inject(param1 = nil, param2 = nil)
     array = to_a
     accum = param1 || array[0]
@@ -88,9 +102,6 @@ module Enumerable
     accum
   end
 
-  
-
-
   def match?(i, param)
     case param
     when Regexp
@@ -106,13 +117,6 @@ module Enumerable
     arr.my_inject(:*)
   end
 
-
-end
-
-puts ((1..5).my_inject { |sum, n| sum + n }) #=> 15
-puts (1..5).my_inject(1) { |product, n| product * n } #=> 120
-longest = %w[ant bear cat].my_inject do |memo, word|
-  memo.length > word.length ? memo : word
 end
 
 
