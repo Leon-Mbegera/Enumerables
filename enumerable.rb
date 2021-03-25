@@ -118,4 +118,3 @@ module Enumerable
   end
 end
 
-p [2,3,4,5].my_inject(:+)
