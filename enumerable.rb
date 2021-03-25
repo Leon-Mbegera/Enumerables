@@ -10,7 +10,7 @@ module Enumerable
     return to_enum unless block_given?
     array = to_a
     array.length.times { |i| yield array[i], i }
-    array
+    return self
   end
 
   def my_select
