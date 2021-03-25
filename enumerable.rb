@@ -1,7 +1,6 @@
 module Enumerable
   def my_each
     return to_enum unless block_given?
-
     for element in self
       yield element
     end
@@ -9,9 +8,8 @@ module Enumerable
 
   def my_each_with_index
     return to_enum unless block_given?
-
     array = to_a
-    array.length.times { |element| yield array[element], element }
+    array.length.times { |i| yield array[i], i }
     array
   end
 
@@ -25,11 +23,11 @@ module Enumerable
 
   def my_all?(param = nil)
     if block_given?
-      to_a.my_each { |i| return false unless yield i }
+      to_a.my_each { |el| return false unless yield el }
     elsif param
-      to_a.my_each { |i| return false unless match?(i, param) }
+      to_a.my_each { |el| return false unless match?(el, param) }
     else
-      to_a.my_each { |i| return false unless i }
+      to_a.my_each { |el| return false unless el }
 
     end
     true
@@ -66,7 +64,7 @@ module Enumerable
     elsif param
       my_each { |i| count += 1 if match?(i, param) }
     else
-      return length
+      return size
     end
     count
   end
@@ -87,16 +85,19 @@ module Enumerable
   def my_inject(param1 = nil, param2 = nil)
     array = to_a
     accum = param1 || array[0]
+
     i = param1 ? 0 : 1
     if block_given?
       (i...array.length).my_each { |el| accum = yield(accum, array[el]) }
+
     elsif param1 && param2
-      (i...array.length).my_each { |el| accum.send(param2, array[el]) }
+      (i...array.length).my_each { |el| accum = accum.send(param2, array[el]) }
+
     elsif param1
       accum = array[0]
-      (1...array.length).my_each { |el| accum.send(param1, array[el]) }
+      (1...array.length).my_each { |el| accum =  accum.send(param1, array[el]) }
     else
-      raise LocalJump
+      raise LocalJumpError
     end
     accum
   end
@@ -116,3 +117,5 @@ module Enumerable
     arr.my_inject(:*)
   end
 end
+
+p [2,3,4,5].my_inject(:+)
