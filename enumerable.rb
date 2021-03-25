@@ -1,6 +1,7 @@
 module Enumerable
   def my_each
     return to_enum unless block_given?
+
     for element in self
       yield element
     end
@@ -8,9 +9,10 @@ module Enumerable
 
   def my_each_with_index
     return to_enum unless block_given?
+
     array = to_a
     array.length.times { |i| yield array[i], i }
-    return self
+    self
   end
 
   def my_select
@@ -95,7 +97,7 @@ module Enumerable
 
     elsif param1
       accum = array[0]
-      (1...array.length).my_each { |el| accum =  accum.send(param1, array[el]) }
+      (1...array.length).my_each { |el| accum = accum.send(param1, array[el]) }
     else
       raise LocalJumpError
     end
@@ -117,4 +119,3 @@ module Enumerable
     arr.my_inject(:*)
   end
 end
-
