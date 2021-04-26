@@ -34,6 +34,31 @@ describe 'Enumerables' do
     end
   end
 
+  describe '#my_each_with_index' do
+
+    context 'when block is not given' do
+      it 'should return an enumerator' do
+        expect(arr.my_each_with_index).to be_a(Enumerator)
+      end
+    end
+
+    context 'when block is given' do
+      hash = {}
+      array = ['cat', 'mouse', 'rabbit']
+      result = {0 => 'cat', 1 => 'mouse', 2 => 'rabbit'}
+      it 'should execute the block condition on each element with its index' do
+        array.my_each_with_index { |pet, idx| hash[idx] = pet}
+        expect(hash).to eq(result)
+      end
+
+      it 'should return same object' do
+        expect(arr.my_each_with_index {|ele, idx| ele}).to eq(arr) 
+      end
+    end
+  end
+
+  
+
 
 
 
