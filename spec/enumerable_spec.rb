@@ -57,6 +57,32 @@ describe 'Enumerables' do
     end
   end
 
+  describe '#my_select method' do
+
+    context 'when no block is given' do
+      it 'should return an Enumerator' do
+        expect(arr.my_each_with_index).to be_a(Enumerator)
+      end
+    end
+
+    context 'when block is given' do
+      it 'should return an array resulting from passing each element to the block' do
+        array = [1, 3, 5]
+        expect(arr.my_select(&:odd?)).to eq(array)
+      end
+
+      it 'should return only elements returning true' do
+        expect(neg_arr.my_select(&:positive?)).to_not include(-3)
+      end
+
+      it 'should return empty array if block is false' do
+        expect(arr.my_select {false}).to be_empty
+      end
+    end
+
+  end
+
+  
   
 
 
