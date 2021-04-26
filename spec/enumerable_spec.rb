@@ -80,9 +80,57 @@ describe 'Enumerables' do
       end
     end
 
+    describe '#my_all? method' do
+
+      context 'when block is given' do
+        it 'should return true if all elements return true' do
+          expect(arr.my_all? {|ele| ele.is_a?(Integer)}).to be true
+        end
+
+        it 'should return false if any element returns false' do
+          array1 = [1, 2, 'doja cat', 8]
+          expect(array1.my_all? {|ele| ele.is_a?(Integer)}).to be false
+        end
+      end
+
+      context 'when parameter is given' do
+        it 'should return true if all elements match given parameter' do
+          expect(arr.my_all?(Integer)).to be true
+        end
+
+        it 'should return true if all elements match regex' do
+          expect(['x', 'y', 'z'].my_all?(/[a-zA-Z]/)).to be true
+        end
+
+        it 'should return true if all elements match given parameter' do
+          expect(alike_arr.my_all?(7)).to be true
+        end 
+      end
+
+      context 'when no parameter is given' do
+        it 'should return true if all elements are truthy' do
+          array1 = [8.03, 'G', true]
+          expect(array1.my_all?).to be true
+        end
+
+        it 'should return false if any element is falsy' do
+          array2 = [27, nil, 'bengali']
+          expect(array2.my_all?).to be false
+        end
+
+        it 'should return true if object empty' do
+          expect(empty_arr.my_all?).to be true
+        end
+
+      
+
+      end
+
+    end
+
   end
 
-  
+
   
 
 
