@@ -121,9 +121,47 @@ describe 'Enumerables' do
         it 'should return true if object empty' do
           expect(empty_arr.my_all?).to be true
         end
+      end
+    end
 
-      
+    describe '#my_none?' do
 
+      context 'when block is given' do
+        it 'should return true if none of elements returns true' do
+          expect(arr.my_none? {|ele| ele.is_a?(Float)}).to be true 
+        end
+
+        it 'should return false if any element returns true' do
+          array = [45, 22, 4.9, 120]
+          expect(array.my_none? {|ele| ele.is_a?(Float)}).to be false
+        end
+      end
+
+      context 'when parameter is given' do
+        it 'should return true if none of element match given parameter' do
+          expect(arr.my_none?(String)).to be true
+        end
+
+        it 'should return false if any element returns true' do
+          array2 = [45, 22, 4.9, 120]
+          expect(array2.my_none?(Float)).to be false
+        end
+
+        it 'should return true if none of elements match given regex' do
+          expect(['q', 'n', 't', 'w'].my_none?(/[0-9]/)).to be true
+        end
+
+        it 'should return true if none of elements match specific parameter' do
+          expect(arr.my_none?(9)).to be true
+        end
+
+        it 'should return true if object is empty' do
+          expect(empty_arr.my_none?).to be true
+        end
+
+        it 'should return false if all elements match given parameter' do
+          expect(arr.my_none?(Integer)).to be false
+        end
       end
 
     end
