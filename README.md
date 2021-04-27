@@ -45,6 +45,11 @@ To get a local copy up and running, follow these simple example steps.
 
 Ruby installed localy
 
+## Run test cases using RSpec
+
+- In your terminal, run `bundle install` to download and install the testing framework"
+- Type `bundle exec rspec` to run the test cases already written
+
 #### my_each
 
 ```
@@ -124,7 +129,7 @@ Ruby installed localy
 [1,2,4,5,6].my_multiply_els
 => 240
 ```
-
+ 
 ## Authors
 
 👤 **Shoira Toshpulatova**
