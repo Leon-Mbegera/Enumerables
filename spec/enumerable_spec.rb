@@ -72,7 +72,7 @@ describe 'Enumerables' do
       end
 
       it 'should return only elements returning true' do
-        expect(neg_arr.my_select(&:positive?)).to_not include(-3)
+        expect(neg_arr.my_select(&:positive?)).not_to include(-3)
       end
 
       it 'should return empty array if block is false' do
@@ -120,6 +120,53 @@ describe 'Enumerables' do
 
         it 'should return true if object empty' do
           expect(empty_arr.my_all?).to be true
+        end
+      end
+    end
+
+    describe '#my_any?' do
+
+      context 'when block is given' do
+        it 'should return true if any of elements returns true' do
+          expect(arr.my_any? {|ele| ele.is_a?(Integer)}).to be true 
+        end
+
+        it 'should return false if all elements return false' do
+          expect(arr.my_any? { |ele| ele.is_a?(String)}).to be false
+        end
+      end
+
+      context 'when parameter is given' do
+        it 'should return true if any element matches given parameter' do
+          expect(arr.my_any?(&:odd?)).to be true
+        end
+
+        it 'should return false if all elements dont match given parameter' do
+          expect(arr.my_any?(&:negative?)).to be false
+        end
+
+        it 'should return true if any element matches specific parameter' do
+          expect(arr.my_any?(5)).to be true
+        end
+      end
+
+      context 'when regex is given' do
+        it 'should return true if any element matches given regex' do
+          expect(['s', 'r', '4.5'].my_any?(/[a-zA-Z]/)).to be true
+        end
+      end
+
+      context 'when no parameter is given' do
+        it 'should return true if any element is truthy' do
+          expect([true, nil].my_any?).to be true
+        end
+
+        it 'should return false if all elements are falsy' do
+          expect([false, nil].my_any?).to be false
+        end
+
+        it 'should return false if empty' do
+          expect(empty_arr.my_any?).to be false
         end
       end
     end
