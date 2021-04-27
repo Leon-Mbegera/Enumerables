@@ -268,12 +268,65 @@ describe 'Enumerables' do
       end
     end
 
+    describe '#my_map method' do
 
+      context 'when neither proc nor block is given' do
+        it 'should return an Enumerator' do
+          expect(arr.my_map).to be_a(Enumerator)
+        end
+      end
 
-  
+      context 'when block is given' do
+        it 'should return an array mapping every element by passing a block' do
+          result = [5, 10, 15, 20, 25]
+          expect(arr.my_map {|ele| ele * 5}).to eq(result)
+        end
 
+      end
+    end
 
+    describe '#my_inject method' do
 
+      context 'when no block nor parameter is given' do
+        it 'should raise an error' do
+          expect{arr.my_inject}.to raise_error LocalJumpError
+        end
+      end
 
+      context 'when block is given' do
+        context 'when parameter is also given' do
+          it 'should start accumulation from parameter' do
+            expect(arr.my_inject(5) {|accum, ele| accum + ele }).to eq(20)
+          end
+        end
 
+        context 'when parameter is not given' do
+          it 'should start accumulation from first element' do
+            expect(arr.my_inject {|accum, ele| accum + ele }).to eq(15)
+          end
+        end
+      end
+
+      context 'when block is not given but starting element and operation sign given as parameters' do
+        it 'should start accumulation from parameter and return reduced enumerable' do
+          expect(arr.my_inject(5, :+)).to eq(20)
+        end
+      end
+
+      context 'when operation sign is given as only parameter' do
+        it 'should start from first element and accumulate through with the operation sign' do
+          expect(arr.my_inject(:*)).to eq(120)
+        end
+      end
+    end
+
+    describe 'multiply_els method' do
+
+      it 'should return the product from the method' do
+        def multiply_els(arr)
+          arr.my_inject(:*)
+        end
+        expect(multiply_els(arr)).to eq(120)
+      end
+    end
 end
