@@ -80,6 +80,9 @@ describe 'Enumerables' do
       end
     end
 
+  end
+
+
     describe '#my_all? method' do
 
       context 'when block is given' do
@@ -211,9 +214,60 @@ describe 'Enumerables' do
         end
       end
 
+      context 'when parameter is not given' do
+
+        it 'should return true if no elements is truthy' do
+          expect([false, nil].my_none?).to be true
+        end
+
+        it 'should return false if even one element is truthy' do
+          expect([nil, false, 23].my_none?).to be false
+        end
+      end
+
     end
 
-  end
+    describe '#my_count method' do
+      context 'when block is given' do
+
+        it 'should return count of elements that return true after passing block' do
+          array1 = [3, 8, 6, 5, 5]
+          expect(array1.my_count {|ele| ele.even?}).to eq(2)
+        end
+  
+        it 'should return count 0 if no elements return true after passing block' do
+          array2 = [2, 4, 4]
+          expect(array2.my_count { |ele| ele.odd?}).to eq(0)
+        end
+      end
+      
+      context 'when parameter is given' do
+
+        it 'should return count of elements that match given parameter' do
+          expect(arr.my_count(Integer)).to eq(5)
+        end
+
+        it 'should return count of elements that match given regex' do
+          expect([4.8, false, 'mbegera', nil].my_count(/[a-zA-Z]/)).to eq(1)
+        end
+
+        it 'should return count of elements that match specific parameter' do
+          expect([4, 333, 333, 8].my_count(333)).to eq(2)
+        end
+       
+      end
+
+      context 'when no parameter is given' do
+        it 'should return total number of elements' do
+          expect([4, 9, 12, 'd', false, 5.33].my_count).to eq(6)
+        end
+
+        it 'should return count of 0 for empty object' do
+          expect(empty_arr.my_count).to eq(0)
+        end
+      end
+    end
+
 
 
   
